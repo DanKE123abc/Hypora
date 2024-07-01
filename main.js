@@ -39,11 +39,11 @@ app.whenReady().then(() => {
     menu.emitter.on("action", (args) => {
         switch(args) {
             case 'new': // 新建
-                const { spawn } = require('child_process');
+                newWindow();
                 win.webContents.send('new');
                 break;
             case 'new-win':
-                const { spawn } = require('child_process');
+                newWindow();
                 break;
             default:
                 win.webContents.send(args);
@@ -104,6 +104,11 @@ ipcMain.on('exit', function() {
     win.destroy();
 });
 
+function newWindow(){
+    const { spawn } = require('child_process');
+    const electronPath = app.getPath('exe');
+    const newProcess = spawn(electronPath, ['.']);
+}
 
 
 
