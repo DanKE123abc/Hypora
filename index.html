@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+    <title>Hypora</title>
+    <link rel="stylesheet" href="./node_modules/vditor/dist/index.css" />
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+<div aria-live="polite" aria-atomic="true" class="toast-container position-fixed top-0 end-0 p-3">
+    <!-- Toasts will be placed here -->
+</div>
+
+<div class="fullscreen-div" id="vditor"></div>
+
+
+<div id="bottomBar" class="bottom-bar">
+    <input type="checkbox" id="outline" name="outline" value="outlineMode">
+    <label for="outline">大纲</label>
+
+    <input type="checkbox" id="sourceCodeMode" name="sourceCodeMode" value="sourceCode">
+    <label for="sourceCodeMode">源代码模式</label>
+
+    <span id="wordCount">0 词</span>
+</div>
+
+
+<script src="./node_modules/vditor/dist/index.min.js"></script>
+<script src="./node_modules/jquery/dist/jquery.min.js"></script>
+<script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./renderer.js"></script>
+</body>
+</html>

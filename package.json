@@ -1,0 +1,42 @@
+{
+  "name": "Hypora",
+  "version": "1.0.0",
+  "description": "Hypertext Opensource Replacement Alternative for Typora",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "author": "danke",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^31.1.0",
+    "electron-builder": "^24.13.3"
+  },
+  "dependencies": {
+    "@electron/remote": "^2.1.2",
+    "bootstrap": "^5.3.3",
+    "jquery": "^3.7.1",
+    "vditor": "^3.10.4"
+  },
+  "build": {
+    "appId": "hypora.danke",
+    "copyright": "Copyright © 2024 danke",
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.productivity"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "assets/icon.png"
+    },
+    "directories": {
+      "output": "release"
+    }
+  }
+}
