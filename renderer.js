@@ -162,7 +162,8 @@ ipcRenderer.on('quit', (event, content) => {
         ipcRenderer.send('exit');
     }
 });
-ipcRenderer.on('open_cmd', (event, currentFile) => {
+ipcRenderer.on('open_cmd', (event, currentFilePath) => {
+    currentFile = currentFilePath;
     const txtRead = readText(currentFile);
     vditor.setValue(txtRead);
     document.title = currentFile + ' - Hypora';
