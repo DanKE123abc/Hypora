@@ -40,11 +40,10 @@ app.whenReady().then(() => {
         switch(args) {
             case 'new': // 新建
                 const { spawn } = require('child_process');
-                const electronPath = app.getPath('exe');
-                const newProcess = spawn(electronPath, ['.']);
                 win.webContents.send('new');
                 break;
-            case 'new-win': // 新窗口
+            case 'new-win':
+                const { spawn } = require('child_process');
                 break;
             default:
                 win.webContents.send(args);

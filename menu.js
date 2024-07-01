@@ -317,9 +317,9 @@ const contextMenuTemplate = [
 const aboutDialog = {
     type: 'info',
     title: '关于 Hypora',
-    message: ' Hypora 是一款类似于 Typora 的 Markdown 文本编辑器 \n\n' +
-        'Hypora是自由软件，你不需要支付任何费用就可以使用、复制、修改它，不过，你的行为受GNU协议约束。详见：https://danke666.top \n\n' +
-        'Hypora在开发时，使用了部分优秀的开源项目，Hypora在遵守开源协议的同时在此附上使用的开源项目及其开发者、归属协议名单：https://danke666.top \n\n' +
+    message: ' Hypora 是一款类似于 Typora 的 Markdown 文本编辑器 \n\n 开源地址：https://github.com/DanKE123abc/Hypora \n\n' +
+        'Hypora是自由软件，你不需要支付任何费用就可以使用、复制、修改它，不过，你的行为受 MIT 协议约束。详见：https://github.com/DanKE123abc/Hypora/blob/main/LICENSE \n\n' +
+        'Hypora在开发时，使用了部分优秀的开源项目，Hypora在遵守开源协议的同时在此附上使用的开源项目及其开发者、归属协议名单：https://github.com/DanKE123abc/Hypora/blob/main/OpenSourceLicense.md \n\n' +
         ' 作者：DanKe \n' +
         ' 版本：1.0.0',
     buttons: ['确定']
