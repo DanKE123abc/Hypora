@@ -8,7 +8,6 @@ let isSave = true; // 初始状态无需保存
 let currentFile = null; // 初始状态无文件路径
 let isQuit = true;
 let isInit = false;
-
 let originalContent = null;
 
 let isOutlineVisible = false;
@@ -34,7 +33,7 @@ var config = {
         position: "left"
     },
     typewriterMode: false,
-    cdn: "./vditor@3.10.4",
+    cdn: "./node_modules/vditor",
     after: () => {
         if (!isInit){
             initMd();
@@ -53,6 +52,7 @@ var config = {
 
 var vditor = new Vditor('vditor', config);
 
+
 // 创建菜单
 const contextMenu = Menu.buildFromTemplate(menu.contextMenuTemplate);
 window.addEventListener('contextmenu', (e) => {
@@ -60,9 +60,6 @@ window.addEventListener('contextmenu', (e) => {
     contextMenu.popup(BrowserWindow.getFocusedWindow());
 });
 menu.emitter.on("editor", handleEditorCommand);
-ipcRenderer.on('editor', (event, args) => {
-    handleEditorCommand(args);
-});
 function handleEditorCommand(args) {
     switch (args) {
         case 'bold':
@@ -88,6 +85,10 @@ function handleEditorCommand(args) {
             break;
     }
 }
+
+ipcRenderer.on('editor', (event, args) => {
+    handleEditorCommand(args);
+});
 
 ipcRenderer.on('view', (event, args) => {
     switch (args) {
@@ -128,6 +129,31 @@ ipcRenderer.on('help', (event, args) => {
     }
 });
 
+ipcRenderer.on('action',(event, args) =>{
+    switch (args) {
+        case 'new':
+            initMd();
+            break;
+        case 'open':
+            askSaveNeed();
+            openFile();
+            break;
+        case 'save':
+            saveCurrentMd();
+            break;
+        case 'save-as':
+            currentFile = null;
+            saveCurrentMd();
+            break;
+        case 'quit':
+            askSaveNeed();
+            if(isQuit) {
+                ipcRenderer.send('exit');
+            }
+            break;
+    }
+});
+
 menu.emitter.on("set-title", (numberOfHashes) => {// 段落
     setTitle(numberOfHashes)
 });
@@ -141,32 +167,12 @@ function setTitle(numberOfHashes) {
     document.execCommand('insertText', false, content);
 }
 
-
-ipcRenderer.on('new', (event, content) => {
-    initMd();
-});
-ipcRenderer.on('open', (event, content) => {
-    askSaveNeed();
-    openFile();
-});
-ipcRenderer.on('save', (event, content) => {
-    saveCurrentMd();
-});
-ipcRenderer.on('save-as', (event, content) => {
-    currentFile = null;
-    saveCurrentMd();
-});
-ipcRenderer.on('quit', (event, content) => {
-    askSaveNeed();
-    if(isQuit) {
-        ipcRenderer.send('exit');
-    }
-});
-ipcRenderer.on('open_cmd', (event, currentFilePath) => {
+ipcRenderer.on('open-cmd', (event, currentFilePath) => {
     currentFile = currentFilePath;
     const txtRead = readText(currentFile);
     vditor.setValue(txtRead);
     document.title = currentFile + ' - Hypora';
+    originalContent = vditor.getValue();
     isSave = true;
     isInit = true;
 });
@@ -308,6 +314,7 @@ function initMd() {
     document.title = 'Untitled - Hypora';
     isSave = true;
     isInit = true;
+    originalContent = vditor.getValue();
     ipcRenderer.send('isInit');
 }
 
@@ -356,6 +363,7 @@ function saveCurrentMd() {
         const txtSave = vditor.getValue();
         saveText(currentFile, txtSave);
         isSave = true;
+        originalContent = vditor.getValue();
         document.title = currentFile + " - Hypora";
     }
 
@@ -383,6 +391,7 @@ function openFile() {
         const txtRead = readText(currentFile);
         vditor.setValue(txtRead);
         document.title = currentFile + ' - Hypora';
+        originalContent = vditor.getValue();
         isSave = true;
         isInit = true;
     }
@@ -398,8 +407,14 @@ function readText(file) {
 function contentModification() {
     if (!(vditor === null)) {
         if (isSave) {
-            isSave = false;
-            document.title = document.title.replace(/ - /g, '● - ');
+            if(originalContent !== null)
+            {
+                if(vditor.getValue() !== originalContent)
+                {
+                    isSave = false;
+                    document.title = document.title.replace(/ - /g, '● - ');
+                }
+            }
         }
     }
 }

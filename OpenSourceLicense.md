@@ -16,13 +16,13 @@ Licensed under Node.js license
 
 [github.com/chromium/chromium](https://github.com/chromium/chromium)
 
-BSD 3 Clause license
+Licensed under BSD 3 Clause license
 
 ## electron-builder
 
 [github.com/electron-userland/electron-builder](https://github.com/electron-userland/electron-builder)
 
-Licensed underMIT license
+Licensed under MIT license
 
 ## vditor
 
@@ -39,5 +39,9 @@ Licensed under MIT license
 ## bootstarp
 
 [github.com/twbs/bootstrap](https://github.com/twbs/bootstrap)
+
+Licensed under MIT license
+
+
 
 Licensed under MIT license

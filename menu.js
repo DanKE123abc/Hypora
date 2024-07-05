@@ -208,6 +208,12 @@ const menuTemplate = [
                     emitter.emit('help','about');
                 }
             },
+            //{
+            //    label: '开源许可证',
+            //    click: function () {
+            //        emitter.emit('help','opensource');
+            //    }
+            //},
         ]
     },
 ];

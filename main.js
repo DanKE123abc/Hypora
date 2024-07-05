@@ -25,7 +25,7 @@ function createWindow() {
     win.on('close', function (e) {
         // 阻止默认关闭事件
         e.preventDefault();
-        win.webContents.send("quit");
+        win.webContents.send("action", "quit");
     });
 }
 
@@ -40,13 +40,13 @@ app.whenReady().then(() => {
         switch(args) {
             case 'new': // 新建
                 newWindow();
-                win.webContents.send('new');
+                win.webContents.send("action",'new');
                 break;
             case 'new-win':
                 newWindow();
                 break;
             default:
-                win.webContents.send(args);
+                win.webContents.send("action", args);
         }
     });
     menu.emitter.on("editor", (args) => {
@@ -64,11 +64,22 @@ app.whenReady().then(() => {
         win.webContents.send('theme', args);
     });
     menu.emitter.on("help", (args) => {
-        win.webContents.send('help', args);
+        switch(args) {
+            case 'opensource':
+                ipcMain.on('isInit', function() {
+
+                });
+                break;
+            default:
+                win.webContents.send('help', args);win.webContents.send("action", args);
+        }
+
     });
     menu.emitter.on("set-title", (args) => {
         win.webContents.send('set-title', args);
     });
+
+
     win.setIcon(path.join(__dirname, 'assets/icon.ico'));
 
     win.once('ready-to-show', () => {
@@ -77,7 +88,7 @@ app.whenReady().then(() => {
         if (filePath && fs.existsSync(filePath)) {
             console.log(`文件路径已找到: ${filePath}`);
             ipcMain.on('isInit', function() {
-                win.webContents.send('open_cmd', filePath);
+                win.webContents.send('open-cmd', filePath);
             });
         } else {
             console.error('未找到有效的文件路径参数');
@@ -109,6 +120,5 @@ function newWindow(){
     const electronPath = app.getPath('exe');
     const newProcess = spawn(electronPath, ['.']);
 }
-
 
 
