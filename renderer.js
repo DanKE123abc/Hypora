@@ -74,6 +74,33 @@ function handleEditorCommand(args) {
             const underlineContent = "<u>" + vditor.getSelection() + "</u>";
             document.execCommand('insertText', false, underlineContent);
             break;
+        case 'code':
+            const codeContent = "`" + vditor.getSelection() + "`";
+            document.execCommand('insertText', false, codeContent);
+            break;
+        case 'deleteline':
+            const deletelineContent = "~~" + vditor.getSelection() + "~~";
+            document.execCommand('insertText', false, deletelineContent);
+            break;
+        case 'comment':
+            const commentContent = "<!--" + vditor.getSelection() + "-->";
+            document.execCommand('insertText', false, commentContent);
+            break;
+        case 'ordered-list':
+            const orderedlistContent = "1. " + vditor.getSelection();
+            document.execCommand('insertText', false, orderedlistContent);
+            break;
+        case 'unordered-list':
+            const unorderedlistContent = "- " + vditor.getSelection();
+            document.execCommand('insertText', false, unorderedlistContent);
+            break;
+        case 'task-list':
+            const tasklistContent = "- [ ] " + vditor.getSelection();
+            document.execCommand('insertText', false, tasklistContent);
+            break;
+        case 'set-quote':
+            setQuote();
+            break;
         case 'copy2text':
             const content = vditor.getSelection();
             if (content) {
@@ -154,7 +181,8 @@ ipcRenderer.on('action',(event, args) =>{
     }
 });
 
-menu.emitter.on("set-title", (numberOfHashes) => {// 段落
+
+menu.emitter.on("set-title", (numberOfHashes) => {
     setTitle(numberOfHashes)
 });
 ipcRenderer.on('set-title', (event,numberOfHashes) => {
@@ -166,6 +194,59 @@ function setTitle(numberOfHashes) {
     vditor.focus();
     document.execCommand('insertText', false, content);
 }
+
+
+ipcRenderer.on('edit', (event,args) => {
+    handleEditCommand(args);
+});
+menu.emitter.on("edit", handleEditCommand);
+function handleEditCommand(args) {
+    switch (args) {
+        case 'set-formula':
+            setFormula();
+            break;
+        case 'set-code':
+            setCode();
+            break;
+        case 'set-quote':
+            setQuote();
+            break;
+        case 'set-footnote':
+            setFootnote();
+            break;
+        case 'set-divider':
+            setDivider();
+            break;
+    }
+}
+function setDivider() { //水平分割线
+    const content = '______';
+    vditor.focus();
+    document.execCommand('insertText', false, content);
+}
+function setCode() { //代码块
+    const content = '```';
+    vditor.focus();
+    document.execCommand('insertText', false, content);
+}
+function setFormula() { //公式块
+    const content = '$$';
+    vditor.focus();
+    document.execCommand('insertText', false, content);
+}
+function setFootnote() {
+    const hashes = '[^]:';
+    const content = hashes + " " + vditor.getSelection();
+    vditor.focus();
+    document.execCommand('insertText', false, content);
+}
+function setQuote() {
+    const hashes = '>';
+    const content = hashes + " " + vditor.getSelection();
+    vditor.focus();
+    document.execCommand('insertText', false, content);
+}
+
 
 ipcRenderer.on('open-cmd', (event, currentFilePath) => {
     currentFile = currentFilePath;
@@ -363,7 +444,6 @@ function saveCurrentMd() {
         const txtSave = vditor.getValue();
         saveText(currentFile, txtSave);
         isSave = true;
-        originalContent = vditor.getValue();
         document.title = currentFile + " - Hypora";
     }
 
@@ -372,6 +452,7 @@ function saveCurrentMd() {
 function saveText( file, text ) {
     const fs = require('fs');
     fs.writeFileSync( file, text );
+    originalContent = vditor.getValue();
 }
 
 // 选择文档路径

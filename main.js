@@ -18,9 +18,11 @@ function createWindow() {
     });
 
     win.webContents.setIgnoreMenuShortcuts(false);
+
     remote.initialize();
     remote.enable(win.webContents);
-    win.loadFile('index.html'); // 确保您的HTML文件名与此处匹配
+
+    win.loadFile('index.html');
 
     win.on('close', function (e) {
         // 阻止默认关闭事件
@@ -78,7 +80,9 @@ app.whenReady().then(() => {
     menu.emitter.on("set-title", (args) => {
         win.webContents.send('set-title', args);
     });
-
+    menu.emitter.on("edit",(args) => {
+        win.webContents.send('edit', args);
+    });
 
     win.setIcon(path.join(__dirname, 'assets/icon.ico'));
 
@@ -87,7 +91,7 @@ app.whenReady().then(() => {
 
         if (filePath && fs.existsSync(filePath)) {
             console.log(`文件路径已找到: ${filePath}`);
-            ipcMain.on('isInit', function() {
+            ipcMain.on('isInit', function () {
                 win.webContents.send('open-cmd', filePath);
             });
         } else {

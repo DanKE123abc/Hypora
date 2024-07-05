@@ -108,7 +108,60 @@ const menuTemplate = [
                 click: function () {
                     emitter.emit('set-title', 6);
                 }
-            }
+            },
+            { type: 'separator' },
+            {
+                label: '公式块',
+                click: function () {
+                    emitter.emit('edit','set-formula');
+                }
+            },
+            {
+                label: '代码块',
+                click: function () {
+                    emitter.emit('edit','set-code');
+                }
+            },
+            { type: 'separator' },
+            {
+                label: '引用',
+                click: function () {
+                    emitter.emit('edit','set-quote');
+                }
+            },
+            { type: 'separator' },
+            {
+                label: '有序列表',
+                click: function () {
+                    emitter.emit('editor','ordered-list');
+                }
+            },
+            {
+                label: '无序列表',
+                click: function () {
+                    emitter.emit('editor','unordered-list');
+                }
+            },
+            {
+                label: '任务列表',
+                click: function () {
+                    emitter.emit('editor','task-list');
+                }
+            },
+            { type: 'separator' },
+            {
+                label: '脚注',
+                click: function () {
+                    emitter.emit('edit','set-footnote');
+                }
+            },
+            { type: 'separator' },
+            {
+                label: '水平分割线',
+                click: function () {
+                    emitter.emit('edit','set-divider');
+                }
+            },
         ]
     },
     {
@@ -135,6 +188,26 @@ const menuTemplate = [
                     emitter.emit('editor','underline');
                 }
             },
+            {
+                label: '代码',
+                click: function () {
+                    emitter.emit('editor','code');
+                }
+            },
+            { type: 'separator' },
+            {
+                label: '删除线',
+                click: function () {
+                    emitter.emit('editor','deleteline');
+                }
+            },
+            {
+                label: '注释',
+                click: function () {
+                    emitter.emit('editor','comment');
+                }
+            },
+
         ]
     },
     {
@@ -248,23 +321,44 @@ const contextMenuTemplate = [
         submenu: [
             {
                 label: '加粗',
-                accelerator: 'CmdOrCtrl+B',
                 click: function () {
                     emitter.emit('editor','bold');
                 }
             },
             {
                 label: '斜体',
-                accelerator: 'CmdOrCtrl+I',
                 click: function () {
                     emitter.emit('editor','italic');
                 }
             },
             {
                 label: '下划线',
-                accelerator: 'CmdOrCtrl+U',
                 click: function () {
                     emitter.emit('editor','underline');
+                }
+            },
+            {
+                label: '引用',
+                click: function () {
+                    emitter.emit('edit','set-quote');
+                }
+            },
+            {
+                label: '有序列表',
+                click: function () {
+                    emitter.emit('editor','ordered-list');
+                }
+            },
+            {
+                label: '无序列表',
+                click: function () {
+                    emitter.emit('editor','unordered-list');
+                }
+            },
+            {
+                label: '任务列表',
+                click: function () {
+                    emitter.emit('editor','task-list');
                 }
             },
     ]
@@ -317,7 +411,36 @@ const contextMenuTemplate = [
         ]
 
     },
+    {
+        label: '插入',
+        submenu: [
+            {
+                label: '脚注',
+                click: function () {
+                    emitter.emit('edit','set-footnote');
+                }
+            },
+            {
+                label: '水平分割线',
+                click: function () {
+                    emitter.emit('edit','set-divider');
+                }
+            },
+            {
+                label: '代码块',
+                click: function () {
+                    emitter.emit('edit','set-code');
+                }
+            },
+            {
+                label: '公式块',
+                click: function () {
+                    emitter.emit('edit','set-formula');
+                }
+            },
 
+        ]
+    },
 ];
 
 const aboutDialog = {
