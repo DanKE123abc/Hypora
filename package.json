@@ -26,13 +26,31 @@
   "build": {
     "appId": "hypora.danke",
     "copyright": "Copyright © 2024 danke",
-    "mac": {
-      "target": "dmg",
-      "category": "public.app-category.productivity"
-    },
     "win": {
       "target": "nsis",
-      "icon": "assets/icon.ico"
+      "icon": "assets/icon.ico",
+      "fileAssociations": [
+        {
+          "ext": "md",
+          "name": "Markdown Document",
+          "role": "Editor",
+          "description": "Markdown File",
+          "icon": "assets/md.ico"
+        }
+      ]
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.productivity",
+      "fileAssociations": [
+        {
+          "ext": "md",
+          "name": "Markdown Document",
+          "role": "Editor",
+          "description": "Markdown File",
+          "icon": "assets/md.icns"
+        }
+      ]
     },
     "linux": {
       "target": "AppImage",
@@ -42,4 +60,5 @@
       "output": "release"
     }
   }
+
 }
